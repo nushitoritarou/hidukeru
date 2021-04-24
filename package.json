@@ -1,0 +1,14 @@
+{
+  "name": "hidukeru",
+  "version": "1.0.0",
+  "description": "it names the jpg files in the user-selected directory based on the file-created date.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.5"
+  }
+}
