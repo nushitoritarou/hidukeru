@@ -2,7 +2,7 @@
   "name": "hidukeru",
   "version": "1.0.0",
   "description": "it names the jpg files in the user-selected directory based on the file-created date.",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
