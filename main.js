@@ -37,16 +37,11 @@ const { ipcMain } = require('electron')
 
 ipcMain.on('message', (event, arg) => {
   console.log(arg);
-  async() => {
-    await sleep(10); 
     event.sender.send('reply', 'pong');
-  };
 })
 
-function sleep(time) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve();
-        }, time);
-    });
-}
+
+ipcMain.on('files', (event, arg) => {
+  console.log(arg[0]);
+  event.sender.send('reply', 'pong');
+})

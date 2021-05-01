@@ -14,57 +14,34 @@
         Chromium <span id="chrome-version"></span>,
         and Electron <span id="electron-version"></span>.
     </p>
-  <div id="drop-area" class="drop-area">
+  <div id="holder" class="holder">
     ここにドラッグ&ドロップできる
   </div>
     <button id="button1">ボタン</button>
 <script src="js/renderer.js"></script>
 
   <script>
-    var holder = document.getElementById('drop-area');
+    window.onload=callA;
+        //console.dir(e);;
+   var holder = document.getElementById('holder');
+    /** hoverエリアにドラッグされた場合 */
+    holder.ondragover = function () {
+      return false;
+    };
+    /** hoverエリアから外れた or ドラッグが終了した */
+    holder.ondragleave = holder.ondragend = function () {
+      return false;
+    };
     /** hoverエリアにドロップされた */
     holder.ondrop = function (e) {
       e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
 
-      var file = e.dataTransfer.files;
-        
-        //console.dir(e);;
-
+      var files = e.dataTransfer.files;
+      var filesLen = files.length;
+      console.log(filesLen);
+      sendFiles(Array.from(files));
       return false;
     };
-async function scanFiles(entry, tmpObject) {
-    switch (true) {
-        case (entry.isDirectory) :
-            const entryReader = entry.createReader();
-            const entries = await new Promise(resolve => {
-                entryReader.readEntries(entries => resolve(entries));
-            });
-            await Promise.all(entries.map(entry => scanFiles(entry, tmpObject)));
-            break;
-        case (entry.isFile) :
-            tmpObject.push(entry);
-            break;
-    }
-}
-
-holder.addEventListener("dragover", event => {
-        event.preventDefault();
-    }, false);
-
-holder.addEventListener("drop", async event => {
-        //console.dir(e);;
-        event.preventDefault();
-        const items = event.dataTransfer.items;
-        const results = [];
-        const promise = [];
-        for (const item of items) {
-            const entry = item.webkitGetAsEntry();
-            promise.push(scanFiles(entry, results));
-        }
-        await Promise.all(promise);
-        console.log(results); //テスト表示
-
-    }, false);
   </script>
 </body>
 </html>
