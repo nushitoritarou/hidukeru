@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
 
-function createWindow () {
+function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -35,13 +35,11 @@ app.on('window-all-closed', () => {
 // ipcMain is ipc object for main process.
 const { ipcMain } = require('electron')
 
-ipcMain.on('message', (event, arg) => {
-  console.log(arg);
-    event.sender.send('reply', 'pong');
-})
-
-
 ipcMain.on('files', (event, arg) => {
   console.log(arg[0]);
   event.sender.send('reply', 'pong');
 })
+
+
+
+

@@ -1,29 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>ひづけるapp</title>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <meta charset="UTF-8">
+  <title>ひづけるapp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 </head>
-<body style="background: white;">
-    <h1>Hello World!</h1>
+
+<body>
+  <nav class="navbar mb-2 navbar-color">
+    <a href="#" id="nav-brand" class="navbar-brand navbar-color">日付ける</a>
+  </nav>
+  <div class="container">
     <p>
-        We are using Node.js <span id="node-version"></span>,
-        Chromium <span id="chrome-version"></span>,
-        and Electron <span id="electron-version"></span>.
+      We are using Node.js <span id="node-version"></span>,
+      Chromium <span id="chrome-version"></span>,
+      and Electron <span id="electron-version"></span>.
     </p>
-  <div id="holder" class="holder">
-    ここにドラッグ&ドロップできる
+    <div id="holder" class="holder col-12">
+      ここにドラッグ&ドロップできる
+    </div>
+    <label>
+      <span class="btn file_btn">
+        参照
+        <input type="file" style="display:none" webkitdirectory>
+      </span>
+    </label>
+    <div id="file-list" class="file-list mt-2">
+      <div class="file-path-box row mt-1">
+        <div class="col-2"></div>
+        <div class="file-name-box col-7">1</div>
+        <div class="delete-icon col-1">
+          <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="col-2"></div>
+        </div>
+      </div>
+      <div class="file-path-box row mt-1">
+        <div class="col-2"></div>
+        <div class="file-name-box col-7">2</div>
+        <div class="delete-icon col-1">
+          <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="col-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-2"></div>
+      <button type="button" class="btn execute_btn btn-lg mx-auto">実行</button>
+      <button type="button" class="btn cancel_btn btn-lg mx-auto">キャンセル</button>
+      <div class="col-2"></div>
+    </div>
+
   </div>
-    <button id="button1">ボタン</button>
-<script src="js/renderer.js"></script>
+  <script src="js/renderer.js"></script>
 
   <script>
-    window.onload=callA;
-        //console.dir(e);;
-   var holder = document.getElementById('holder');
+    var holder = document.getElementById('holder');
     /** hoverエリアにドラッグされた場合 */
     holder.ondragover = function () {
       return false;
@@ -35,13 +76,12 @@
     /** hoverエリアにドロップされた */
     holder.ondrop = function (e) {
       e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
-
       var files = e.dataTransfer.files;
-      var filesLen = files.length;
-      console.log(filesLen);
-      sendFiles(Array.from(files));
+      //sendFiles(Array.from(files));
+      showFileList(Array.from(files));
       return false;
     };
   </script>
 </body>
+
 </html>
