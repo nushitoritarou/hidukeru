@@ -25,63 +25,60 @@
       ここにドラッグ&ドロップできる
     </div>
     <label>
-      <span class="btn file_btn">
+      <span class="btn file_btn" id="dir-select">
         参照
-        <input type="file" style="display:none" webkitdirectory>
       </span>
     </label>
-    <div id="file-list" class="file-list mt-2">
-      <div class="file-path-box row mt-1">
-        <div class="col-2"></div>
-        <div class="file-name-box col-7">1</div>
-        <div class="delete-icon col-1">
-          <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="col-2"></div>
-        </div>
-      </div>
-      <div class="file-path-box row mt-1">
-        <div class="col-2"></div>
-        <div class="file-name-box col-7">2</div>
-        <div class="delete-icon col-1">
-          <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="col-2"></div>
-        </div>
-      </div>
-    </div>
+    <div id="file-list" class="file-list mt-2"></div>
 
-    <div class="row mt-3">
+    <div class="row mt-3" id="btns">
       <div class="col-2"></div>
       <button type="button" class="btn execute_btn btn-lg mx-auto">実行</button>
-      <button type="button" class="btn cancel_btn btn-lg mx-auto">キャンセル</button>
       <div class="col-2"></div>
     </div>
 
   </div>
   <script src="js/renderer.js"></script>
+  <template id="file-path-box-template">
+    <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
+      <div class="col-2"></div>
+      <div class="file-name-box col-7 shortcut"></div>
+      <div class="delete-icon col-1">
+        <button type="button" class="close file-path-delete" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </template>
+    <script>
+      var holder = document.getElementById('holder');
+      /** hoverエリアにドラッグされた場合 */
+      holder.ondragover = function () {
+        return false;
+      };
+      /** hoverエリアから外れた or ドラッグが終了した */
+      holder.ondragleave = holder.ondragend = function () {
+        return false;
+      };
+      /** hoverエリアにドロップされた */
+      holder.ondrop = function (e) {
+        e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
+        var files = e.dataTransfer.files;
+        //sendFiles(Array.from(files));
+        setFileList(Array.from(files).map(e => e.path));
+        return false;
+      };
+      // ファイル選択ダイアログ
+      document.getElementById('dir-select').addEventListener('click', () => {
+        selectDir();
+      })
 
-  <script>
-    var holder = document.getElementById('holder');
-    /** hoverエリアにドラッグされた場合 */
-    holder.ondragover = function () {
-      return false;
-    };
-    /** hoverエリアから外れた or ドラッグが終了した */
-    holder.ondragleave = holder.ondragend = function () {
-      return false;
-    };
-    /** hoverエリアにドロップされた */
-    holder.ondrop = function (e) {
-      e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
-      var files = e.dataTransfer.files;
-      //sendFiles(Array.from(files));
-      showFileList(Array.from(files));
-      return false;
-    };
-  </script>
+      // 削除ボタン発火
+      jQuery(document).on("click", ".file-path-delete", function () {
+        deleteFilePathBox(jQuery(this));
+      })
+    </script>
 </body>
 
 </html>

@@ -1,17 +1,18 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
-
+let mainWin
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      //devTools: false,  // comment out in dev environment
       preload: path.join(__dirname, '/preload.js')
     }
   })
-
-  win.loadFile('index.html')
+  win.loadFile('index.html');
+  mainWin = win;
 }
 
 app.whenReady().then(() => {
@@ -33,13 +34,26 @@ app.on('window-all-closed', () => {
 
 // ipc processing
 // ipcMain is ipc object for main process.
-const { ipcMain } = require('electron')
+const { ipcMain, dialog } = require('electron')
+
 
 ipcMain.on('files', (event, arg) => {
   console.log(arg[0]);
   event.sender.send('reply', 'pong');
 })
 
+ipcMain.on('select-dirs', async (event, arg) => {
+  // ファイルを選択
+  const paths = dialog.showOpenDialogSync(mainWin, {
+    buttonLabel: '開く',  // 確認ボタンのラベル
+    properties:[
+      'openDirectory',
+      'multiSelections',
+      'createDirectory',  
+    ]
+  });
+  event.sender.send('selected-dirs', paths);
 
+})
 
 
