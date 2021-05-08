@@ -10,6 +10,7 @@ window.api.on('files', (arg) => {
 //ファイル選択ダイアログ
 // ファイル選択ダイアログ mainプロセスへ渡す
 function selectDir() {
+  jQuery("#progress-bar-div").hide();
   window.api.send("select-dirs", "");
 }
 
@@ -26,6 +27,9 @@ function setFileList(files) {
   });
 }
 
+window.api.on('progress', (arg) => {
+  jQuery('#progress-bar').css('width', arg + "%");
+})
 let filePathBoxCount = 0
 // path 文字列パス
 function addFilePathBox(path) {
@@ -63,7 +67,7 @@ function getFilePathList() {
 }
 
 // ファイル名変更処理実行 mainプロセスへおくる
-function sendFilePathList(){
+function sendFilePathList() {
   const filePathList = getFilePathList();
   window.api.send("file-path-list", filePathList);
 }

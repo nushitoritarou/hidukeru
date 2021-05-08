@@ -36,22 +36,27 @@
       <button type="button" id="execute_btn" class="btn execute_btn btn-lg mx-auto">実行</button>
       <div class="col-2"></div>
     </div>
-
-  </div>
-  <script src="js/renderer.js"></script>
-
-  <template id="file-path-box-template">
-    <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
-      <div class="col-2"></div>
-      <div class="file-name-box col-7 shortcut"></div>
-      <div class="delete-icon col-1">
-        <button type="button" class="close file-path-delete" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="col-2"></div>
+    <div id="progress-bar-div" style="display: none;">
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%">
+        </div>
       </div>
+
     </div>
-  </template>
+    <script src="js/renderer.js"></script>
+
+    <template id="file-path-box-template">
+      <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
+        <div class="col-2"></div>
+        <div class="file-name-box col-7 shortcut"></div>
+        <div class="delete-icon col-1">
+          <button type="button" class="close file-path-delete" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="col-2"></div>
+        </div>
+      </div>
+    </template>
     <script>
       var holder = document.getElementById('holder');
       /** hoverエリアにドラッグされた場合 */
@@ -67,6 +72,7 @@
         e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
         var files = e.dataTransfer.files;
         //sendFiles(Array.from(files));
+        jQuery("#progress-bar-div").hide();
         setFileList(Array.from(files).map(e => e.path));
         return false;
       };
@@ -76,10 +82,13 @@
       })
 
       jQuery(document).on("click", ".file-path-delete", function () {
+        jQuery("#progress-bar-div").hide();
         deleteFilePathBox(jQuery(this));
       })
 
-      jQuery(document).on("click","#execute_btn",function(){
+      jQuery(document).on("click", "#execute_btn", function () {
+        jQuery("#progress-bar-div").show();
+        jQuery('#progress-bar').css('width', "0%");
         sendFilePathList();
       })
     </script>

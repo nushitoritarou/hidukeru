@@ -104,7 +104,8 @@ async function ExecuteRename(filePathListOrg) {
     });
     jpegFileList.push(...pathlist);
   }
-
+  const PROGRESS_DENOMINATOR = jpegFileList.length * 3;
+  var PROGRESS_NUMERATOR = 0;
 
   var jpegClassList = jpegFileList.map(m => new JpgFileObject(m));
   //exif情報からタイムスタンプを取得
@@ -120,6 +121,8 @@ async function ExecuteRename(filePathListOrg) {
       mtime = await getCreatedDateTime(jpegClassObject);
       jpegClassObject.createdDateTime = mtime;
     }
+    PROGRESS_NUMERATOR++;
+    sendProgress(100 * PROGRESS_NUMERATOR / PROGRESS_DENOMINATOR);
   }
   //ソート，インデックスの付与
   var sortedClassList = jpegClassList.sort(function (a, b) {
@@ -140,6 +143,8 @@ async function ExecuteRename(filePathListOrg) {
       processingDate = element.getDate();
     }
     element.index = fileCount;
+    PROGRESS_NUMERATOR++;
+    sendProgress(100 * PROGRESS_NUMERATOR / PROGRESS_DENOMINATOR);
   })
 
   //日付ごとフォルダの作成
@@ -163,6 +168,8 @@ async function ExecuteRename(filePathListOrg) {
   // ファイルのコピー
   // 日付のフォルダがすでにあった場合はコピーしない
   for (let element of sortedClassList) {
+    PROGRESS_NUMERATOR++;
+    sendProgress(100 * PROGRESS_NUMERATOR / PROGRESS_DENOMINATOR);
     if (existsDate.includes(element.getDate())) continue;
 
     let outDirPath = OUTPUT_DIR + "\\" + element.getDate();
