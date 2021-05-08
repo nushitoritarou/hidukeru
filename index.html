@@ -33,12 +33,13 @@
 
     <div class="row mt-3" id="btns">
       <div class="col-2"></div>
-      <button type="button" class="btn execute_btn btn-lg mx-auto">実行</button>
+      <button type="button" id="execute_btn" class="btn execute_btn btn-lg mx-auto">実行</button>
       <div class="col-2"></div>
     </div>
 
   </div>
   <script src="js/renderer.js"></script>
+
   <template id="file-path-box-template">
     <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
       <div class="col-2"></div>
@@ -70,13 +71,16 @@
         return false;
       };
       // ファイル選択ダイアログ
-      document.getElementById('dir-select').addEventListener('click', () => {
+      jQuery(document).on("click", "#dir-select", function () {
         selectDir();
       })
 
-      // 削除ボタン発火
       jQuery(document).on("click", ".file-path-delete", function () {
         deleteFilePathBox(jQuery(this));
+      })
+
+      jQuery(document).on("click","#execute_btn",function(){
+        sendFilePathList();
       })
     </script>
 </body>

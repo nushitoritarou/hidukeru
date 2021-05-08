@@ -55,3 +55,15 @@ function addFilePathBox(path) {
 function deleteFilePathBox(path) {
   path.parent().parent().remove();
 }
+
+
+// file-name-box で画面に表示されているパスのリストを返す
+function getFilePathList() {
+  return Array.from(document.querySelector('#file-list').getElementsByClassName('file-name-box')).map(element => element.innerHTML);
+}
+
+// ファイル名変更処理実行 mainプロセスへおくる
+function sendFilePathList(){
+  const filePathList = getFilePathList();
+  window.api.send("file-path-list", filePathList);
+}
