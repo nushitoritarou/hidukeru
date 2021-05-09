@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, shell } = require('electron')
 const path = require('path')
 let mainWin
 const CONFIG_FILE_PATH = './config.json';
@@ -14,7 +14,7 @@ function createWindow() {
       preload: path.join(__dirname, '/preload.js')
     }
   })
-  win.loadFile('index.html');
+  win.loadFile(__dirname + '/index.html');
   mainWin = win;
 }
 
@@ -60,17 +60,20 @@ ipcMain.on('select-dirs', async (event, arg) => {
   event.sender.send('selected-dirs', paths);
 })
 
+ipcMain.on('open-output-path', async (event, arg) => {
+  shell.openPath(arg);
+})
 
 ipcMain.on('file-path-list', async (event, arg) => {
   ExecuteRename(arg).then((result) => {
-    console.log(result);
+    //console.log(result);
+    mainWin.webContents.send('rename-result', result);
   });
 })
 
 const fs = require('fs');
 const sharp = require("sharp");
 const exif = require('exif-reader');
-const { unique } = require('jquery');
 const EXIF_PROPERTIES = ["[image]", "[thumbnail]", "[exif]"];
 // ファイル名変更処理実行
 //https://blog.kozakana.net/2019/04/sharp-get-information/
@@ -180,6 +183,12 @@ async function ExecuteRename(filePathListOrg) {
         return new RenameResult("ENOENT", e.path);
       }
     });
+  }
+  if(existsDate.length==0){
+    return new RenameResult("SUCCESS",OUTPUT_DIR);
+  }
+  else{
+    return new RenameResult("SUCCESS",OUTPUT_DIR);
   }
 }
 

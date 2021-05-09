@@ -6,6 +6,7 @@
   <title>ひづけるapp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
@@ -43,55 +44,79 @@
       </div>
 
     </div>
-    <script src="js/renderer.js"></script>
+    <div class="modal fade" id="finish-modal" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="label1">処理完了</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-message">
 
-    <template id="file-path-box-template">
-      <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
-        <div class="col-2"></div>
-        <div class="file-name-box col-7 shortcut"></div>
-        <div class="delete-icon col-1">
-          <button type="button" class="close file-path-delete" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="col-2"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn file_btn" id="open-output-path" data-dismiss="modal" data-path=""
+              css="display:none;">フォルダを開く</button>
+          </div>
         </div>
       </div>
-    </template>
-    <script>
-      var holder = document.getElementById('holder');
-      /** hoverエリアにドラッグされた場合 */
-      holder.ondragover = function () {
-        return false;
-      };
-      /** hoverエリアから外れた or ドラッグが終了した */
-      holder.ondragleave = holder.ondragend = function () {
-        return false;
-      };
-      /** hoverエリアにドロップされた */
-      holder.ondrop = function (e) {
-        e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
-        var files = e.dataTransfer.files;
-        //sendFiles(Array.from(files));
-        jQuery("#progress-bar-div").hide();
-        setFileList(Array.from(files).map(e => e.path));
-        return false;
-      };
-      // ファイル選択ダイアログ
-      jQuery(document).on("click", "#dir-select", function () {
-        selectDir();
-      })
+    </div>
+  </div>
+  <script src="js/renderer.js"></script>
 
-      jQuery(document).on("click", ".file-path-delete", function () {
-        jQuery("#progress-bar-div").hide();
-        deleteFilePathBox(jQuery(this));
-      })
+  <template id="file-path-box-template">
+    <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
+      <div class="col-2"></div>
+      <div class="file-name-box col-7 shortcut"></div>
+      <div class="delete-icon col-1">
+        <button type="button" class="close file-path-delete" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </template>
+  <script>
+    var holder = document.getElementById('holder');
+    /** hoverエリアにドラッグされた場合 */
+    holder.ondragover = function () {
+      return false;
+    };
+    /** hoverエリアから外れた or ドラッグが終了した */
+    holder.ondragleave = holder.ondragend = function () {
+      return false;
+    };
+    /** hoverエリアにドロップされた */
+    holder.ondrop = function (e) {
+      e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
+      var files = e.dataTransfer.files;
+      //sendFiles(Array.from(files));
+      jQuery("#progress-bar-div").hide();
+      setFileList(Array.from(files).map(e => e.path));
+      return false;
+    };
+    // ファイル選択ダイアログ
+    jQuery(document).on("click", "#dir-select", function () {
+      selectDir();
+    })
 
-      jQuery(document).on("click", "#execute_btn", function () {
-        jQuery("#progress-bar-div").show();
-        jQuery('#progress-bar').css('width', "0%");
-        sendFilePathList();
-      })
-    </script>
+    jQuery(document).on("click", ".file-path-delete", function () {
+      jQuery("#progress-bar-div").hide();
+      deleteFilePathBox(jQuery(this));
+    })
+
+    jQuery(document).on("click", "#execute_btn", function () {
+      jQuery("#progress-bar-div").show();
+      jQuery('#progress-bar').css('width', "0%");
+      sendFilePathList();
+    })
+    jQuery(document).on("click", "#open-output-path", function () {
+      openOutputDirectory(jQuery(this).data('path'));
+    })
+  </script>
 </body>
 
 </html>
