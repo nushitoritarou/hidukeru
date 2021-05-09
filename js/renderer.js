@@ -82,7 +82,7 @@ function addFilePathBox(path) {
 }
 
 function deleteFilePathBox(path) {
-  path.parent().parent().remove();
+  path.parent().parent().parent().remove();
 }
 
 function openModal() {

@@ -82,3 +82,12 @@ body{
     -webkit-text-overflow: ellipsis; /* Safari */
     -o-text-overflow: ellipsis; /* Opera */
 }
+.file-name-frame{
+ padding: 0.3em;
+ width: 90%; /*幅の調節*/
+    color: #554618;
+    background-color:#f1f0ec;
+ border: 2px solid #ccc; /*線の太さ・色*/
+ border-radius: 8px; /*角の丸み*/  width: 90%;
+ border: 1px solid #ccc; /* 枠線 */
+}
