@@ -91,3 +91,40 @@ body{
  border-radius: 8px; /*角の丸み*/  width: 90%;
  border: 1px solid #ccc; /* 枠線 */
 }
+
+/* edit-config.html */
+.save_config_btn{
+    font-size: 1rem;
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #abc701;
+    border-color: #abc701;
+}
+.save_config_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #b5d100;
+    border-color: #b5d100;
+}
+
+.save_config_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #a5be01;
+    border-color: #a5be01;
+}
+.set_default_btn{
+    font-size: 1rem;
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #a2b1b4;
+    border-color: #a2b1b4;
+}
+.set_default_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #acbdc0;
+    border-color: #acbdc0;
+}
+.set_default_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #8c9a9c;
+    border-color: #8c9a9c;
+}

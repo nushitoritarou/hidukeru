@@ -33,7 +33,6 @@ window.api.on('progress', (arg) => {
 
 window.api.on('rename-result', (arg) => {
   let modal_message = document.getElementById("modal-message")
-  console.log(arg);
   if (arg == undefined) return;
   if (arg.message == "ENOENT") {
     // No such file or directory
@@ -62,20 +61,12 @@ function addFilePathBox(path) {
   const content = document.querySelector('#file-path-box-template').content;
   // フラグメント
   const fragment = document.createDocumentFragment();
-  // テンプレートのノードを複製
   const clone = document.importNode(content, true);
 
-  // テンプレート内のbox
   const filePathBox = clone.querySelector('.file-path-box');
-
-  // テンプレート内のname-box
   const fileNameBox = clone.querySelector('.file-name-box');
-
-  // テンプレートの要素に適用する
   filePathBox.id = "file-path" + filePathBoxCount++;
   fileNameBox.innerHTML = path;
-
-  // 複製したノードをフラグメントに挿入
   fragment.appendChild(clone);
   // HTMLに挿入
   document.querySelector('#file-list').appendChild(fragment);
@@ -86,7 +77,6 @@ function deleteFilePathBox(path) {
 }
 
 function openModal() {
-  console.log("openModal");
   jQuery('#finish-modal').modal();
 }
 
@@ -101,6 +91,44 @@ function sendFilePathList() {
   window.api.send("file-path-list", filePathList);
 }
 function openOutputDirectory(path) {
-    jQuery("#open-output-path").hide();
-    window.api.send("open-output-path",path);
+  jQuery("#open-output-path").hide();
+  window.api.send("open-output-path", path);
 }
+
+function saveConfig() {
+  var data = {
+    pad_length: jQuery('#pad_length').val(),
+    file_name_format: jQuery('#file_name_format').val(),
+    output_directory: jQuery('#output_directory').val()
+  };
+  var configJson = JSON.stringify(data);
+  window.api.send("save-config", configJson);
+}
+function setDefaultConfig() {
+  setForm({ "pad_length": 3, "file_name_format": "[date]_[str_index]", "output_directory": "" });
+}
+function setForm(param) {
+  jQuery('#pad_length').val(param.pad_length);
+  jQuery('#file_name_format').val(param.file_name_format);
+  jQuery('#output_directory').val(param.output_directory);
+}
+
+
+// send request to main process
+function loadConfig() {
+  window.api.send("load-config", "");
+}
+
+// コンフィグの読み込みが終了すると呼ばれる
+window.api.on('config-param', (arg) => {
+  if (arg == undefined) {
+    setDefaultConfig();
+  }
+  setForm(arg);
+})
+// コンフィグの保存が終了すると呼ばれる
+window.api.on('save-config-result', (arg) => {
+  if (arg == undefined) {
+  }
+  console.log(arg);
+})

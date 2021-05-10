@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>ひづけるapp 設定</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand navbar-color">
+    <a href="index.html" class="navbar-brand navbar-color">日付ける</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link navbar-color" href="edit-config.html">設定</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="p-1"></div>
+    <div class="form-group">
+      <label for="text1">ファイル連番の桁数:</label>
+      <input type="number" id="pad_length" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="text1">ファイル名のフォーマット:</label>
+      <input type="text" id="file_name_format" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="text1">出力先フォルダ（空の場合は指定されたフォルダ）:</label>
+      <input type="text" id="output_directory" class="form-control">
+    </div>
+    <div>
+      <button type="button" id="set_default_btn" class="btn set_default_btn btn-lg mx-auto">デフォルト値</button>
+      <button type="button" id="save_config_btn" class="btn save_config_btn btn-lg mx-auto">設定を保存</button>
+    </div>
+  </div>
+  <script src="js/renderer.js"></script>
+
+  <script>
+  window.onload =loadConfig;
+    jQuery(document).on("click", "#set_default_btn", function () {
+      setDefaultConfig();
+    })
+    jQuery(document).on("click", "#save_config_btn", function () {
+      saveConfig();
+    })
+  </script>
+</body>
+
+</html>

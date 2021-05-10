@@ -64,9 +64,22 @@ ipcMain.on('open-output-path', async (event, arg) => {
   shell.openPath(arg);
 })
 
+ipcMain.on('load-config', async (event, arg) => {
+  fs.promises.readFile(CONFIG_FILE_PATH, 'utf-8').then(function (configFile) {
+    var configJson = JSON.parse(configFile);
+    event.sender.send('config-param', configJson);
+  }, function (err) {
+    event.sender.send('config-param', undefined);
+  });
+})
+
+ipcMain.on('save-config', async (event, arg) => {
+  fs.promises.writeFile(CONFIG_FILE_PATH, arg).catch((err) => { throw err; });
+  event.sender.send('save-config-result', "SUCCESS");
+})
+
 ipcMain.on('file-path-list', async (event, arg) => {
   ExecuteRename(arg).then((result) => {
-    //console.log(result);
     mainWin.webContents.send('rename-result', result);
   });
 })
@@ -76,7 +89,6 @@ const sharp = require("sharp");
 const exif = require('exif-reader');
 const EXIF_PROPERTIES = ["[image]", "[thumbnail]", "[exif]"];
 // ファイル名変更処理実行
-//https://blog.kozakana.net/2019/04/sharp-get-information/
 async function ExecuteRename(filePathListOrg) {
   sendProgress(0);
   await loadConfig();
@@ -184,11 +196,11 @@ async function ExecuteRename(filePathListOrg) {
       }
     });
   }
-  if(existsDate.length==0){
-    return new RenameResult("SUCCESS",OUTPUT_DIR);
+  if (existsDate.length == 0) {
+    return new RenameResult("SUCCESS", OUTPUT_DIR);
   }
-  else{
-    return new RenameResult("SUCCESS",OUTPUT_DIR);
+  else {
+    return new RenameResult("SUCCESS", OUTPUT_DIR);
   }
 }
 
