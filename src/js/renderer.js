@@ -38,10 +38,12 @@ window.api.on('rename-result', (arg) => {
     // No such file or directory
     let errorPath = arg.info;
     document.getElementById("modal-message").innerHTML = "ファイル処理実行中にエラーが発生しました．以下のファイルもしくはフォルダは存在していません．\n" + errorPath;
+    document.getElementById("modal-message-dup").innerHTML = "";
     jQuery('#finish-modal').modal();
   }
   else if (arg.message == "WRONG_LIST_SIZE") {
     document.getElementById("modal-message").innerHTML = "";
+    document.getElementById("modal-message-dup").innerHTML = "";
     jQuery('#finish-modal').modal('hide');
   }
   else if (arg.message == "DUPLICATE") {
@@ -65,6 +67,7 @@ window.api.on('rename-result', (arg) => {
   else if (arg.message == "SUCCESS") {
     let filePath = arg.info;
     document.getElementById("modal-message").innerHTML = "以下のフォルダに日付けごとに分けてコピーされました．\n" + filePath;
+    document.getElementById("modal-message-dup").innerHTML = "";
     jQuery("#open-output-path").show();
     jQuery("#open-output-path").data('path', filePath);
     jQuery('#finish-modal').modal();
