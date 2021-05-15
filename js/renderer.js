@@ -44,6 +44,24 @@ window.api.on('rename-result', (arg) => {
     document.getElementById("modal-message").innerHTML = "";
     jQuery('#finish-modal').modal('hide');
   }
+  else if (arg.message == "DUPLICATE") {
+    let filePath = arg.info;
+    let dupList = arg.duplicateList;
+    let dateList = arg.duplicateList.map(m=>{return m.slice(0,4)+"/"+m.slice(4,6)+"/"+m.slice(6)});
+    document.getElementById("modal-message").innerHTML = "以下のフォルダに日付けごとに分けてコピーされました．" + filePath;
+
+    let message = "";
+    message = message +"日付フォルダがすでにあったため"
+    dateList.forEach(element=>{
+      message += "，"+ element
+    });
+    message += "のファイルは処理されませんでした．"
+    document.getElementById("modal-message-dup").innerHTML = message;
+
+    jQuery("#open-output-path").show();
+    jQuery("#open-output-path").data('path', filePath);
+    jQuery('#finish-modal').modal();
+  }
   else if (arg.message == "SUCCESS") {
     let filePath = arg.info;
     document.getElementById("modal-message").innerHTML = "以下のフォルダに日付けごとに分けてコピーされました．\n" + filePath;

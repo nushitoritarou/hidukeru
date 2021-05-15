@@ -200,7 +200,7 @@ async function ExecuteRename(filePathListOrg) {
     return new RenameResult("SUCCESS", OUTPUT_DIR);
   }
   else {
-    return new RenameResult("SUCCESS", OUTPUT_DIR);
+    return new RenameResult("DUPLICATE", OUTPUT_DIR,existsDate);
   }
 }
 
@@ -260,9 +260,10 @@ class JpgFileObject {
 }
 
 class RenameResult {
-  constructor(message, info = "") {
+  constructor(message, info = "",dupList=[]) {
     this.message = message;
     this.info = info;
+    this.duplicateList = dupList;
   }
 }
 
