@@ -117,18 +117,20 @@ function saveConfig() {
   var data = {
     pad_length: jQuery('#pad_length').val(),
     file_name_format: jQuery('#file_name_format').val(),
-    output_directory: jQuery('#output_directory').val()
+    output_directory: jQuery('#output_directory').val(),
+    exif_default_value: jQuery('#exif_default_value').val()
   };
   var configJson = JSON.stringify(data);
   window.api.send("save-config", configJson);
 }
 function setDefaultConfig() {
-  setForm({ "pad_length": 3, "file_name_format": "[date]_[str_index]", "output_directory": "" });
+  setForm({ "pad_length": 3, "file_name_format": "[date]_[str_index]", "output_directory": "" ,"exif_default_value":"none"});
 }
 function setForm(param) {
   jQuery('#pad_length').val(param.pad_length);
   jQuery('#file_name_format').val(param.file_name_format);
   jQuery('#output_directory').val(param.output_directory);
+  jQuery('#exif_default_value').val(param.exif_default_value);
 }
 
 

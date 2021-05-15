@@ -5,6 +5,7 @@ const CONFIG_FILE_PATH = './config.json';
 var PAD_LENGTH = 3;
 var FILE_NAME_FORMAT = '[date]_[str_index]';
 var OUT_DIR_FROM_CONFIG = "";
+var EXIF_DEFAULT_VALUE = "none";
 
 var GitHubUrl = 'https://github.com/nushitoritarou/hidukeru';
 // メニュー
@@ -41,6 +42,10 @@ function createWindow() {
       preload: path.join(__dirname, '/preload.js')
     }
   })
+  win.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
   win.loadFile(__dirname + '/index.html');
   mainWin = win;
 }
@@ -267,17 +272,18 @@ class JpgFileObject {
   getPropertyValue(propertyName) {
     let propertyList = propertyName.match(/\[([^\]]*)\]/g);
     var beforeObject = this;
-    for (let i = 0; i < propertyList.length; i++) {
-      if (EXIF_PROPERTIES.includes(propertyList[i])) {
-        beforeObject = beforeObject[trimIdentifier(propertyList[i])];
-        continue;
+    try {
+      for (let i = 0; i < propertyList.length; i++) {
+        if (EXIF_PROPERTIES.includes(propertyList[i])) {
+          beforeObject = beforeObject[trimIdentifier(propertyList[i])];
+          continue;
+        }
+        let result = beforeObject[trimIdentifier(propertyList[i])];
+        return (result ? result : EXIF_DEFAULT_VALUE);
       }
-      try {
-        return beforeObject[trimIdentifier(propertyList[i])];
-      }
-      catch {
-        return "";
-      }
+    }
+    catch {
+      return EXIF_DEFAULT_VALUE;
     }
   }
 }
@@ -337,7 +343,8 @@ async function loadConfig() {
     var data = {
       pad_length: 3,
       file_name_format: "[date]_[str_index]",
-      output_directory: ""
+      output_directory: "",
+      exif_default_value: "none"
     };
     fs.writeFile(CONFIG_FILE_PATH, JSON.stringify(data), (err) => {
       throw err;
@@ -347,6 +354,7 @@ async function loadConfig() {
   PAD_LENGTH = configJson.pad_length;
   FILE_NAME_FORMAT = configJson.file_name_format;
   OUT_DIR_FROM_CONFIG = configJson.output_directory;
+  EXIF_DEFAULT_VALUE = configJson.exif_default_value;
   return;
 }
 
