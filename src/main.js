@@ -10,10 +10,10 @@ var GitHubUrl = 'https://github.com/nushitoritarou/hidukeru';
 // メニュー
 const template = Menu.buildFromTemplate([
   ...[{
-    label: app.name+'アプリ',
+    label: app.name + 'アプリ',
     submenu: [
       { role: 'about', label: `${app.name}について` },
-    { label: `GitHub Repository`, click: function () { shell.openExternal(GitHubUrl); } },
+      { label: `GitHub Repository`, click: function () { shell.openExternal(GitHubUrl); } },
       { role: 'quit', label: `${app.name}を終了` }
     ]
   }]
@@ -265,23 +265,20 @@ class JpgFileObject {
   // getPropertyValue("[date]") -> this.date
   // getPropertyValue("[exif][DateTimeOriginal]") -> this.exif.DateTimeOriginal
   getPropertyValue(propertyName) {
-    let propertyList = getPropertyList(propertyName);
-    var objectFlg = false
-    var beforeObject = '';
+    let propertyList = propertyName.match(/\[([^\]]*)\]/g);
+    var beforeObject = this;
     for (let i = 0; i < propertyList.length; i++) {
       if (EXIF_PROPERTIES.includes(propertyList[i])) {
-        objectFlg = true;
-        beforeObject = result[i];
+        beforeObject = beforeObject[trimIdentifier(propertyList[i])];
+        continue;
       }
-      else {
-        if (objectFlg) {
-          return this[trimIdentifier(beforeObject)][trimIdentifier(propertyList[i])];
-        } else {
-          return this[trimIdentifier(propertyList[i])];
-        }
+      try {
+        return beforeObject[trimIdentifier(propertyList[i])];
+      }
+      catch {
+        return "";
       }
     }
-    return "";
   }
 }
 
@@ -366,17 +363,17 @@ async function directoryExists(dirPath) {
 }
 // "[a]_[b]_[exif][c]_[d]" -> ["[a]","[b]","[exif][c]","[d]"]
 function getPropertyList(src) {
+  //  "[a]_[b]_[exif][c]_[d]" -> ["[a]","[b]","[exif]","[c]","[d]"]
   let singlePropertyList = src.match(/\[([^\]]*)\]/g);
   let result = [];
+  let multipleProperty = '';
   for (let i = 0; i < singlePropertyList.length; i++) {
-    let pushValue = singlePropertyList[i];
     if (EXIF_PROPERTIES.includes(singlePropertyList[i])) {
-      if (!(i + 1 < singlePropertyList.length)) {
-        break;
-      }
-      pushValue = singlePropertyList[i] + singlePropertyList[i + 1];
+      multipleProperty += singlePropertyList[i];
+      continue;
     }
-    result.push(pushValue);
+    result.push(multipleProperty + singlePropertyList[i]);
+    multipleProperty = '';
   }
   return result;
 }
