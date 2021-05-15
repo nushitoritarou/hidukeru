@@ -1,10 +1,37 @@
-const { app, BrowserWindow, shell } = require('electron')
+const { app, Menu, BrowserWindow, shell } = require('electron')
 const path = require('path')
 let mainWin
 const CONFIG_FILE_PATH = './config.json';
 var PAD_LENGTH = 3;
 var FILE_NAME_FORMAT = '[date]_[str_index]';
 var OUT_DIR_FROM_CONFIG = "";
+
+var GitHubUrl = 'https://github.com/nushitoritarou/hidukeru';
+// メニュー
+const template = Menu.buildFromTemplate([
+  ...[{
+    label: app.name+'アプリ',
+    submenu: [
+      { role: 'about', label: `${app.name}について` },
+    { label: `GitHub Repository`, click: function () { shell.openExternal(GitHubUrl); } },
+      { role: 'quit', label: `${app.name}を終了` }
+    ]
+  }]
+]);
+// About Panel
+app.setAboutPanelOptions({
+  applicationName: 'hidukeru',
+  applicationVersion: 'dev',
+  copyright: 'Copyright (c) 2021 nushitoritarou',
+  version: 'dev',
+  authors: ['nushitoritarou'],
+  website: GitHubUrl,
+  iconPath: 'image/icon.png'
+});
+// メニューを適用する
+Menu.setApplicationMenu(template);
+
+
 function createWindow() {
   win = new BrowserWindow({
     width: 800,
@@ -44,7 +71,6 @@ ipcMain.on('files', (event, arg) => {
   console.log(arg[0]);
   event.sender.send('reply', 'pong');
 })
-
 
 //ファイル選択ダイアログ
 ipcMain.on('select-dirs', async (event, arg) => {
@@ -200,7 +226,7 @@ async function ExecuteRename(filePathListOrg) {
     return new RenameResult("SUCCESS", OUTPUT_DIR);
   }
   else {
-    return new RenameResult("DUPLICATE", OUTPUT_DIR,existsDate);
+    return new RenameResult("DUPLICATE", OUTPUT_DIR, existsDate);
   }
 }
 
@@ -260,7 +286,7 @@ class JpgFileObject {
 }
 
 class RenameResult {
-  constructor(message, info = "",dupList=[]) {
+  constructor(message, info = "", dupList = []) {
     this.message = message;
     this.info = info;
     this.duplicateList = dupList;
