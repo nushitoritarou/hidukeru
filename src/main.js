@@ -148,7 +148,14 @@ async function ExecuteRename(filePathListOrg) {
         return new RenameResult("ENOENT", e.path);
       }
     });
-    jpegFileList.push(...pathlist);
+    try {
+      jpegFileList.push(...pathlist);
+    }
+    catch (e) {
+      if (e.name == "TypeError") {
+        jpegFileList.push(element);
+      }
+    }
   }
   const PROGRESS_DENOMINATOR = jpegFileList.length * 3;
   var PROGRESS_NUMERATOR = 0;
@@ -331,7 +338,7 @@ async function getOutputDirectory(filePath) {
   let outDir = OUT_DIR_FROM_CONFIG;
   outDir = outDir ? outDir : filePath[0];
   let dirStat = await fs.promises.stat(outDir);
-  if (dirStat.isDirectory) {
+  if (dirStat.isDirectory()) {
     return outDir;
   } else {
     return path.dirname(outDir);
