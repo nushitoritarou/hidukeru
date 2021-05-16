@@ -17,6 +17,9 @@ This software renames JPG images and divides them into directories according to 
 ## Setup
 環境：windows8 or 10
 
+1. [リリース](https://github.com/nushitoritarou/hidukeru/releases/)から任意のバージョンのzipファイルをダウンロード．
+![Setup1](img/Setup1.PNG)
+2. ダウンロードしたzipファイルを解凍し，中に入っている`hidukeru Setup {version}.exe`を実行．
 
 ## 使い方(Usage)
 1. ソフトウェアを起動し，『ここにドラッグ＆ドロップできる』と書かれたエリアに対象のファイル，フォルダをドラッグアンドドロップ，もしくは参照ボタンから選択を行う．  
