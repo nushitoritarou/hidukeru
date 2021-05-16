@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>ひづけるapp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand navbar-color">
+    <a href="#" class="navbar-brand navbar-color">日付ける</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu" aria-controls="navmenu"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link navbar-color" href="edit-config.html">設定</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row py-1">
+      <div id="holder" class="holder col-12">
+        ここにドラッグ&ドロップできる
+      </div>
+    </div>
+    <div class="row">
+      <div class="py-1 my-0 ml-auto mr-0">
+        <button type="button" class="btn file_btn " id="dir-select">参照</button>
+      </div>
+    </div>
+    <div id="file-list" class="file-list mt-2"></div>
+
+    <div class="row mt-3" id="btns">
+      <div class="col-2"></div>
+      <button type="button" id="execute_btn" class="btn execute_btn btn-lg mx-auto">実行</button>
+      <div class="col-2"></div>
+    </div>
+    <div id="progress-bar-div" style="display: none;">
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%">
+        </div>
+      </div>
+
+    </div>
+    <div class="modal fade" id="finish-modal" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="label1">処理完了</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="modal-message">
+
+            </p>
+            <p id="modal-message-dup"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn file_btn" id="open-output-path" data-dismiss="modal" data-path=""
+              css="display:none;">フォルダを開く</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/renderer.js"></script>
+
+  <template id="file-path-box-template">
+    <div class="file-path-box row mt-1" id="file-path[FILE_NUM]">
+      <div class="col-2"></div>
+      <div class="col-8 row file-name-frame">
+        <div class="file-name-box col-10 shortcut"></div>
+        <div class="delete-icon col-2">
+          <button type="button" class="close file-path-delete" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </template>
+  <script>
+    var holder = document.getElementById('holder');
+    /** hoverエリアにドラッグされた場合 */
+    holder.ondragover = function () {
+      return false;
+    };
+    /** hoverエリアから外れた or ドラッグが終了した */
+    holder.ondragleave = holder.ondragend = function () {
+      return false;
+    };
+    /** hoverエリアにドロップされた */
+    holder.ondrop = function (e) {
+      e.preventDefault(); // イベントの伝搬を止めて、アプリケーションのHTMLとファイルが差し替わらないようにする
+      var files = e.dataTransfer.files;
+      //sendFiles(Array.from(files));
+      jQuery("#progress-bar-div").hide();
+      setFileList(Array.from(files).map(e => e.path));
+      return false;
+    };
+    // ファイル選択ダイアログ
+    jQuery(document).on("click", "#dir-select", function () {
+      selectDir();
+    })
+
+    jQuery(document).on("click", ".file-path-delete", function () {
+      jQuery("#progress-bar-div").hide();
+      deleteFilePathBox(jQuery(this));
+    })
+
+    jQuery(document).on("click", "#execute_btn", function () {
+      jQuery("#progress-bar-div").show();
+      jQuery('#progress-bar').css('width', "0%");
+      sendFilePathList();
+    })
+    jQuery(document).on("click", "#open-output-path", function () {
+      openOutputDirectory(jQuery(this).data('path'));
+    })
+  </script>
+</body>
+
+</html>

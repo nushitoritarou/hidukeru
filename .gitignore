@@ -1,2 +1,5 @@
 # ignore modules
 /node_modules/
+/.vscode/
+/dist/
+/report/

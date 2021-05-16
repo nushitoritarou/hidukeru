@@ -1,0 +1,130 @@
+
+body{
+    font-family: 'メイリオ', meiryo,'ヒラギノ角ゴシック','hiragino sans',sans-serif;
+    color: #554618;
+    background-color:#ebe8de;
+}
+.navbar-color{
+    color:#dcdcd3;
+    background-color:#4e6d08;
+}
+
+.holder{
+    color:#ebebeb; 
+    background-color: #9dbd0f;
+    height: 10rem; 
+}
+
+.btn.focus, .btn:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.file-name-box{
+    font-family: 'Meiryo UI',sans-serif;
+}
+.execute_btn{
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #abc701;
+    border-color: #abc701;
+}
+.execute_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #b5d100;
+    border-color: #b5d100;
+}
+
+.execute_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #a5be01;
+    border-color: #a5be01;
+}
+.cancel_btn{
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #a2b1b4;
+    border-color: #a2b1b4;
+}
+.cancel_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #acbdc0;
+    border-color: #acbdc0;
+}
+.cancel_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #8c9a9c;
+    border-color: #8c9a9c;
+}
+
+.file_btn{
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #abc701;
+    border-color: #abc701;
+}
+.file_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #b5d100;
+    border-color: #b5d100;
+}
+
+.file_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #a5be01;
+    border-color: #a5be01;
+}
+
+.shortcut {
+    white-space: nowrap; /* 横幅のMAXに達しても改行しない */
+    overflow: hidden; /* ハミ出した部分を隠す */
+    text-overflow: ellipsis; /* 「…」と省略 */
+    -webkit-text-overflow: ellipsis; /* Safari */
+    -o-text-overflow: ellipsis; /* Opera */
+}
+.file-name-frame{
+ padding: 0.3em;
+ width: 90%; /*幅の調節*/
+    color: #554618;
+    background-color:#f1f0ec;
+ border: 2px solid #ccc; /*線の太さ・色*/
+ border-radius: 8px; /*角の丸み*/  width: 90%;
+ border: 1px solid #ccc; /* 枠線 */
+}
+
+/* edit-config.html */
+.save_config_btn{
+    font-size: 1rem;
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #abc701;
+    border-color: #abc701;
+}
+.save_config_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #b5d100;
+    border-color: #b5d100;
+}
+
+.save_config_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #a5be01;
+    border-color: #a5be01;
+}
+.set_default_btn{
+    font-size: 1rem;
+    color: rgb(243, 243, 243);
+    width:9rem;
+    background-color: #a2b1b4;
+    border-color: #a2b1b4;
+}
+.set_default_btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #acbdc0;
+    border-color: #acbdc0;
+}
+.set_default_btn:active{
+    color: rgb(214, 214, 214);
+    background-color: #8c9a9c;
+    border-color: #8c9a9c;
+}

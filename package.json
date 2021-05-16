@@ -2,13 +2,36 @@
   "name": "hidukeru",
   "version": "1.0.0",
   "description": "it names the jpg files in the user-selected directory based on the file-created date.",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^12.0.5"
+    "electron": "^12.0.5",
+    "electron-builder": "^22.10.5"
+  },
+  "bugs": {
+    "url": "https://github.com/nushitoritarou/hidukeru/issues"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "exif-reader": "^1.0.3",
+    "jquery": "^3.6.0",
+    "sharp": "^0.28.1"
+  },
+  "build": {
+    "appId":"nushitoritarou.hidukeru",
+    "win": {
+      "target": "nsis",
+      "icon": "src/image/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
