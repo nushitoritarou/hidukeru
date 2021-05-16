@@ -27,7 +27,7 @@ This software renames JPG images and divides them into directories according to 
 (Press the button labeled "実行". When the process is finished, a modal will appear.You can open the output destination directory by clicking the "フォルダを開く" button.)
 ![executed](img/executed.PNG)
 
-3. 実行完了．  
+3. 実行完了．
 (completed.)
 ![result](img/result.PNG)
 
