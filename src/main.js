@@ -6,15 +6,16 @@ var PAD_LENGTH = 3;
 var FILE_NAME_FORMAT = '[date]_[str_index]';
 var OUT_DIR_FROM_CONFIG = "";
 var EXIF_DEFAULT_VALUE = "none";
+const APP_VERSION = "1.0.0";
 
-var GitHubUrl = 'https://github.com/nushitoritarou/hidukeru';
+const GITHUB_URL = 'https://github.com/nushitoritarou/hidukeru';
 // メニュー
 const template = Menu.buildFromTemplate([
   ...[{
     label: app.name + 'アプリ',
     submenu: [
       { role: 'about', label: `${app.name}について` },
-      { label: `GitHub Repository`, click: function () { shell.openExternal(GitHubUrl); } },
+      { label: `GitHub Repository`, click: function () { shell.openExternal(GITHUB_URL); } },
       { role: 'quit', label: `${app.name}を終了` }
     ]
   }]
@@ -22,11 +23,11 @@ const template = Menu.buildFromTemplate([
 // About Panel
 app.setAboutPanelOptions({
   applicationName: 'hidukeru',
-  applicationVersion: 'dev',
+  applicationVersion: APP_VERSION,
   copyright: 'Copyright (c) 2021 nushitoritarou',
-  version: 'dev',
+  version: APP_VERSION,
   authors: ['nushitoritarou'],
-  website: GitHubUrl,
+  website: GITHUB_URL,
   iconPath: 'image/icon.png'
 });
 // メニューを適用する
@@ -38,7 +39,7 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      //devTools: false,  // comment out in dev environment
+      devTools: false,  // comment out in dev environment
       preload: path.join(__dirname, '/preload.js')
     }
   })
