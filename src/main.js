@@ -6,7 +6,7 @@ var PAD_LENGTH = 3;
 var FILE_NAME_FORMAT = '[date]_[str_index]';
 var OUT_DIR_FROM_CONFIG = "";
 var EXIF_DEFAULT_VALUE = "none";
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.0.1";
 
 const GITHUB_URL = 'https://github.com/nushitoritarou/hidukeru';
 // メニュー
