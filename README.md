@@ -31,5 +31,10 @@ This software renames JPG images and divides them into directories according to 
 (completed.)
 ![result](img/result.PNG)
 
+設定については[こちら](about_config.md)
+([click here for information about setting.](about_config_EN.md))
+
+
 ## License
+
 MIT License
